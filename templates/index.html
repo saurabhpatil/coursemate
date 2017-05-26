@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<title>SchoolLinks - Quiz</title>
+		<meta name="author" content="Saurabh" />
+		<link rel="shortcut icon" href="../static/favicon.ico">
+		<link rel="stylesheet" type="text/css" href="../static/main.css"/>
+	</head>
+	<body>
+        <div class="container">
+            <h1 id="main-title">Class Registration</h1>
+            <!-- Course List Section -->
+            <div class="course-list">
+                <form action="" method="get">
+                    <h3 id="p-select">Select Course:</h3>
+                    <select title="select course" name="select_course">
+                        <!-- Populate select box options based on list of courses in JSON -->
+                        {% for course in courses.items %}
+                            <option value="{{ course['course_id'] }}">{{ course['name'] }}</option>
+                        {% endfor %}
+                    </select>
+                    <input class="btn" type="submit" value="Search Classes" name="btn_courseinfo"/>
+                </form>
+            </div>
+         {% if course_info is not None %}
+            <!-- Course Information Section -->
+            <div class="course-info">
+                <!-- Display static course information common across all classes -->
+                <form method="post">
+                    <div class="info-header">
+                        <p class="info-static"> Course: {{ course_info['course'] }}</p>
+                        <p class="info-static"> Cost: {{ course_info['cost'] }}</p>
+                        <p class="info-static"> Description: {{ course_info['description'] }}</p>
+                    </div>
+                    <!-- Display cards for available classes -->
+                    {% for slot in course_info['availability'] %}
+                    <div class="info-classes">
+                        <div class="card">
+                            <div class="card-info">
+                                <p>Professor: {{ slot['professor'] }}</p>
+                                <p>Weekly Schedule: {{ slot['schedule'] }}</p>
+                                <input class="btn" type="submit" value="Enroll" name="btn_enroll"/>
+                            </div>
+                        </div>
+                    </div>
+                    {% endfor %}
+                    <!-- Allow for pagination -->
+                    <div class="pagination-holder">
+                        <ul class="pagination">
+                            <input class="btn" type="submit" value="Previous" name="btn_prev"/>
+                            <input class="btn" type="submit" value="Next" name="btn_next"/>
+                        </ul>
+                    </div>
+                </form>
+            </div>
+        {% endif %}
+        </div>
+	</body>
+</html>
